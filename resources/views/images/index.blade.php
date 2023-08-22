@@ -1,23 +1,33 @@
-<h1>All Images</h1>
+<x-layout title="Discover free images">
+    <div class="container-fluid mt-4">
+        @if ($message = session('message'))
+            <x-alert type="success" dismissible>
+                {{ $component->icon() }}
+                {{ $message }}
+            </x-alert>
+        @endif
+        <div class="row" data-masonry='{"percentPosition": true }'>
+            @foreach ($images as $image)
+                <div class="col-sm-6 col-lg-4 mb-4">
+                    <div class="card    ">
+                        <a href="{{ $image->permalink() }}">
+                            <img src="{{ $image->fileUrl() }}" alt="{{ $image->name }}" class="card-img-top">
+                        </a>
+                        <div class="photo-buttons">
+                            <div>
 
-<a href="{{ route('images.create') }}">Upload an image</a>
-<div>
-    @if ($message = session('message'))
-        <div>{{ $message }}</div>
-    @endif
-</div>
-@foreach ($images as $image)
-    <p>{{ $image->name }}</p>
-
-    <a href="{{ $image->permalink() }}">
-        <img src="{{ $image->fileUrl() }}" alt="{{ $image->name }}" width="200">
-    </a>
-    <div>
-        <a href="{{ route('images.edit', $image->id) }}">Edit </a>
-        <form action="{{ route('images.destroy', $image->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit">Delete</button>
-        </form>
+                                <a href="{{ route('images.edit', $image->id) }}"
+                                    class="btn btn-sm btn-info me-2">Edit</a>
+                                <x-form action="{{ route('images.destroy', $image->id) }}" method="DELETE">
+                                    <button class="btn btn-sm btn-danger" type="submit"
+                                        onclick="return confirm('Are you sure?')">Delete</button>
+                                </x-form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        {{ $images->links() }}
     </div>
-@endforeach
+</x-layout>

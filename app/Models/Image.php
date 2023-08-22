@@ -14,6 +14,17 @@ class Image extends Model
 
     protected $fillable = ['title', 'file', 'dimension', 'user_id', 'slug'];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
+    public function uploadDate()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
     public static function makeDirectory()
     {
         $subfolder = 'images/' . date('Y/m/d');

@@ -19,3 +19,5 @@ Route::get('/', [ImageController::class, 'index']);
 Route::resource('images', ImageController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
 Route::get('images/{image}', [ImageController::class, 'show'])->name('images.show');
+
+Route::view('test', 'test');
